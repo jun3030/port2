@@ -1,0 +1,51 @@
+<%= render 'shared/error_messages', object: @user %>
+
+<h1>プロフィール設定</h1>
+
+<div class="center">
+  <%= image_tag @user.image, :size => '100x100' %><br>
+  <%= link_to "プロフィール画像変更", edit_picture_path(current_user), class: "btn profile-btn" %>
+</div>
+
+<%= form_with(model: @user, url: update_profile_path, local: true) do |f| %>
+<table class="table table-bordered table-striped profile-table">
+  
+  <tr>
+    <th>名前<span class="required">(必須)</span></th>
+    <td><%= f.text_field :name %></td>
+  </tr> 
+  <tr>
+    <th>年齢(必須)</th>
+    <td><%= f.number_field :age %></td>
+  </tr>
+  <tr>
+    <th>性別(必須)</th>
+    <td><%= f.select :sex, ['男', '女'], {include_blank: '---'}, class: 'sample' %></td>
+  </tr>
+  <tr>
+    <th>都道府県(必須)</th>
+    <td><%= f.select :prefecture, User.prefectures.keys, {} %></td>
+  </tr>
+  <tr>
+    <th>使用楽器(必須)</th>
+    <td><%= f.select :responsible_part, User.responsible_parts.keys, {} %></td>
+  <tr>
+    <th>好きな音楽シャンル</th>
+    <td><%= f.select :genre, User.genres.keys, {}, include_blank: true %></td>
+  </tr>
+  <tr>
+    <th>好きなアーティスト</th>
+    <td><%= f.text_field :favorite_artist %></td>
+  </tr>
+  <tr>
+    <th>自己紹介文(必須)</th>
+    <td><%= f.text_area :self_introduction, class: "form-control" %></td>
+  </tr>
+
+</table>
+<div class="center">
+  <%= f.submit "決定", class: "btn btn-lg btn-block profile-btn2" %>
+</div>
+  <% end %>
+  
+

@@ -1,0 +1,289 @@
+<div class="container">
+<div class="comment">
+  <div class="comment-left">
+    <div class="user-image"><%= image_tag @user.image, :size => '230x230' %></div>
+  </div>
+  <div class="comment-right">
+    <h1 class="user-name-mypage"><%= @user.name %><span class="user-info">(<%= @user.prefecture %>,<%= @user.age %>歳,<%= @user.sex %>)</span></h1>
+    <ul class="test">
+      <li>担当パート:<%= @user.responsible_part %></li>
+      <li>好きなジャンル:<%= @user.genre %></li>
+      <li>好きなアーティスト:<%= @user.favorite_artist %></li>
+    </ul>
+    <ul class="test">
+      <li class="self-introduction"><%= @user.self_introduction %></li>
+    </ul>
+  </div>
+  
+  
+  
+  
+  <div class="menu">
+  
+  
+  <div class="menu-list">
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      <div>from-instagram</div>
+      </a>
+      <ul class="dropdown-menu">
+        <li>      
+        <% if @user.id == current_user.id %> <!-- ログイン中のユーザーだった場合  -->
+        <h2>マイページにinstagramの写真、動画を追加します。</h2><hr>
+        <!-- マイページにinstagramの写真、動画を追加する -->
+        <%= form_with(model: @user, url: upload_instagram_path, method: :patch, local: true) do |f| %>
+        
+          <%= f.label :token, class: "label-class" %>
+          <%= f.text_field :first_token, class: "form-control" %>
+          
+          <%= f.label :app_id, class: "label-class" %>
+          <%= f.number_field :app_id, class: "form-control" %>
+          
+          <%= f.label :app_secret, class: "label-class" %>
+          <%= f.text_field :app_secret, class: "form-control" %>
+          
+          <%= f.label :media_count, class: "label-class" %>
+          <%= f.number_field :media_count, class: "form-control" %>
+          
+          <%= f.submit "データを取得", class: "instagram-btn" %>
+        <% end %>
+        <% end %>
+        </li>
+      </ul>
+    </li>
+  </div>
+    
+    
+  <div class="menu-list">
+    <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    <div>コンテンツを追加</div>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <% if @user.id == current_user.id %> <!-- ログイン中のユーザーだった場合  -->
+        <h2>※画像か動画、どちらか1つを選択し投稿してください。</h2><hr>
+        <!-- マイページに写真、動画を追加する -->
+        
+          <%= form_with(model: @url, url: user_add_mypage_content_create_path(@user.id), local: true) do |f| %>
+              
+              <%= f.label :mypage_image %><br>
+              <%= f.file_field :mypage_image %><br>
+              
+              <%= f.label :mypage_movie %><br>
+              <%= f.file_field :mypage_movie %><br>
+              
+              <%= f.submit "投稿する" %>
+          <% end %> 
+        <% end %>
+       </li>
+    </ul>
+  </li>
+  </div>
+  
+  <!-- 記事の管理 -->
+  <div class="menu-list">
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      <div>記事管理</div>
+      </a>
+        <ul class="dropdown-menu">
+          <li>
+           
+           　<strong>記事リスト</strong><hr>
+           　 <% @user.posts.each do |post| %>
+             　<% if @user.id == current_user.id %> <!-- ログイン中のユーザーだった場合  -->
+             　   <%= link_to "#{post.title}", edit_posts_path(@user, post) %><hr>
+             <% else %>
+                 <%= link_to "#{post.title}", confirm_posts_path(@user, post) %><hr>
+               <% end %>
+             <% end %>
+          </li>  
+        </ul>
+    </li>
+  </div>
+  
+  
+  
+  
+  
+  
+  <!-- お気に入り -->
+  <div class="menu-list">
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      <div>お気に入り</div>
+      </a>
+        <ul class="dropdown-menu">
+          <li>
+            <% if @user.id == current_user.id %> <!-- ログイン中のユーザーだった場合  -->
+              <strong>登録リスト</strong><br><hr>
+              <% if @favorite_users_id.present? %>
+                <% @favorite_users_id.each do |id| %>
+                  
+                  <span>
+                    <%= image_tag User.find(id).image, :size => "30x30" %><%= link_to "#{User.find(id).name}さん", edit_mypage_path(User.find(id)) %>
+                    <%= link_to "　解除", user_destroy_path(current_user, User.find(id)), method: :delete, data: { confirm: 'お気に入りを解除しますか?' } %>
+                  </span>
+                  <hr>
+          
+                <% end %>
+              <% end %> <!-- if @favorite_users_id.present? -->
+            <% else %>
+              <%= form_with(model: @favorite, url: user_create_path(current_user, @user), method: :post, local: true) do |f| %>
+                <%= f.hidden_field :favorite_user, value: @user.id %>
+                <%= f.submit "追加" %>
+              <% end %>
+      
+            <% end %> <!--  if @user.id == current_user.id -->
+          </li>  
+        </ul>
+    </li>
+  </div>
+    
+    
+  <div class="menu-list">
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      <div>メッセージ</div>
+      </a>
+        <ul class="dropdown-menu">
+          <li>      
+          <% if @user.id == current_user.id %> <!-- ログイン中のユーザーだった場合  -->
+            <strong>履歴</strong><br><hr>
+            <% if Message.all.where(room_id: @room_ids).present? %>
+              <% @users.each do |user| %>
+                <p>
+                  <span><%= image_tag User.find(user.user_id).image, :size => "30x30" %><%= link_to "#{user.user.name}", room_path(user.room_id) %>
+                        <% if user.user.messages.where(already_read: "未読", room_id: user.room_id).count > 0 %>
+                          <span class="already_read">new</span>
+                        <% end %>
+                  </span>
+                </p>
+                <hr>
+              <% end %>
+            <% end %>
+          <% else %>
+            <% if @isRoom == true %>  <!-- 現在ログイン中のuserが回覧中のuserと共通のroom.idを持っている場合  -->
+              <p><a href="/rooms/<%= @roomId %>">メッセージ</a>
+            <% else %>  <!-- 現在ログイン中のuserが回覧中のuserと共通のroom.idを持っていなかった場合  -->
+              <%= form_for @room do |f| %>
+                <%= fields_for @entry do |e| %>
+                  <%= e.hidden_field :user_id, value: @user.id %>
+                <% end %>
+                <%= f.submit "チャットルームへ" %>
+              <% end %>
+            <% end %>
+          <% end %>
+          </li>
+        </ul>
+    </li>
+  </div>
+    
+    
+  <div class="menu-list">
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      <div>足跡</div>
+      </a>
+        <ul class="dropdown-menu">
+          <li>
+            <% if @footprints.present? %>
+              <% @footprints.each do |footprint| %>
+                <span><%= image_tag User.find(footprint).image, :size => "30x30" %><%= link_to "#{User.find(footprint).name}", edit_mypage_path(User.find(footprint).id) %></span><hr>
+              <% end %>
+            <% end %>
+          </li>  
+        </ul>
+    </li>
+  </div>
+
+
+
+</div> <!-- ul class = "menu" -->
+
+    
+</div>
+</div>
+
+
+<hr>
+
+
+
+<div class="container">
+  <%= form_with(model: @user, url: user_users_url_path(current_user), method: :patch) do |f| %>
+  <ul class="gallery">
+  <% if @user.third_token.present? %>
+    <% @instagram.each do |test| %> <!-- @instagram = @user.urls.all -->
+      <%= f.fields_for "urls[]", test do |instagram| %>
+        <li class="aaa">  
+          <!-- 現在ログイン中のユーザーが@userと同じなら全て表示--> 
+        <% if current_user == @user %>
+          <!-- test.users_urlはusers_urlがnilも表記されてしまう(viewには見えないが存在している)　その為users_urlに値が入っているもののみに if test.users_url.include?("mp4") を適用している -->
+          <% if !test.users_url.nil? %> 
+            <% if test.users_url.include?("mp4") %>
+                <div class="tee">
+                  <%= video_tag test.users_url, controls: true , :size => "281x281" %>
+                </div>
+            <% else %>
+                <div class="tee">
+                  <%= image_tag test.users_url, :size => "281x281" %>
+                </div>
+            <% end %>
+          <% else %>
+                <div class="tee">
+                  <% if test.mypage_image %>
+                    <%= image_tag test.mypage_image, :size => "281x281" %>
+                  <% else %>
+                    <%= video_tag test.mypage_movie, controls: true , :size => "281x281" %>
+                  <% end %>
+                </div>
+          <% end %>
+              <div class="tee-test">
+                <%= link_to "記事として投稿", user_posts_path(current_user, date: test.users_url), class: "btn btn-xs btn-primary" %>
+                <%= instagram.label "非公開" %>
+                <%= instagram.check_box :public_url, {} , "true", "false" %>
+                <%= instagram.label "削除" %>
+                <%= instagram.check_box :select_content_delete, {} , "true", "false" %>
+              </div class="tee-test">
+          <!-- public_urlがtrueのコンテンツは表示しない -->
+        <% elsif test.public_url == true %>
+             
+          <!-- public_urlがfalseのコンテンツは表示 -->
+        <% else %>
+            <% if !test.users_url.nil? %> 
+            <% if test.users_url.include?("mp4") %>
+                <div class="tee">
+                  <%= video_tag test.users_url, controls: true , :size => "281x281" %>
+                </div>
+            <% else %>
+                <div class="tee">
+                  <%= image_tag test.users_url, :size => "281x281" %>
+                </div>
+            <% end %>
+          <% else %>
+                <div class="tee">
+                  <% if test.mypage_image %>
+                    <%= image_tag test.mypage_image, :size => "281x281" %>
+                  <% else %>
+                    <%= video_tag test.mypage_movie, controls: true , :size => "281x281" %>
+                  <% end %>
+                </div>
+          <% end %>
+         <% end %>
+        </li>
+      <% end %>
+    <% end %> <!-- @instagram.each do |test| -->
+    <% end %> <!-- if @user.third_token.present? -->
+  </ul>
+  <hr>
+  <div class="public-btn">
+  <% if current_user == @user %>
+ 　　 <%= f.submit "公開情報を変更" %>
+  <% end %>
+  </div>
+  <% end %>　
+</div>
+
+

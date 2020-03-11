@@ -1,0 +1,94 @@
+
+
+<h1>記事作成</h1><hr>
+<%= render 'shared/post_error_messages', object: @user %>
+
+<%= form_with(model: @post, url: user_create_posts_path, local: true) do |f| %>
+  <table class="table table-bordered table-striped profile-table">
+    <%= render 'shared/error_messages' %>
+    
+    <tr>
+      <th class="users-posts-table">
+        <%= f.label "記事の公開、非公開" %>
+        <div>※公開する場合はチェックボックスにサインしてください</div>
+      </th>
+      <td>
+        <span>公開する</span><%= f.check_box :public_article, class: "form-control" %>
+
+      </td>
+    <tr>
+    
+    
+    <tr>
+      <th class="users-posts-table"><%= f.label "記事タイトル" %></th>
+      <td><%= f.text_field :title, class: "form-control" %></td>
+    </tr>
+    
+    <tr>
+      <th class="users-posts-table"><%= f.label "記事内容(必須)" %></th><br>
+      <td><%= f.text_area :content, class: "form-control" %></td>
+    </tr>
+    
+    <tr>
+    <% if params[:date] %>
+      <th class="users-posts-table"><%= f.label "インスタグラムから" %></th>
+      <td><%= f.text_area :from_mypage_data, value: @from_mypage_data.from_mypage_data, readonly: true %></td>
+    <% end %>
+    </tr>
+    
+    <tr>
+    <% unless params[:date]  %>
+      <th class="users-posts-table"><%= f.label "画像ファイル" %><div>※画像か動画、どちらかを選択してください。</div></th>
+      <td><%= f.file_field :posts_image %></td>
+    <% end %>
+    </tr>
+    
+    <tr>
+    <% unless params[:date]  %>
+      <th class="users-posts-table"><%= f.label "動画ファイル" %><div>※画像か動画、どちらかを選択してください。</div></th>
+      <td><%= f.file_field :video %></td>
+    <% end %>
+    </tr>
+    <tr>
+      <th class="users-posts-table">活動地域(必須:複数可)</th>
+      <td><% @area.each do |area| %>
+      <%= area %><%= f.check_box :activity_area, {multiple: true}, area, nil %>
+      <% end %></td>
+    </tr>
+    
+    <tr>
+      <th class="users-posts-table">募集楽器パート(必須:複数可)</th>
+      <td><% @part.each do |part| %>
+      <%= part %><%= f.check_box :recruitment_part, {multiple: true}, part, nil %>
+      <% end %></td>
+    <tr>
+    <tr>
+      <th class="users-posts-table">バンドジャンル(必須:複数可)</th>
+      <td><% @ganre.each do |ganre| %>
+      <%= ganre %><%= f.check_box :band_genre, {multiple: true}, ganre, nil %>
+      <% end %></td>
+    <tr>
+    <tr>
+      <th class="users-posts-table">活動曜日(任意)</th>
+      <td><%= f.select :activity_day, ['指定なし', '平日', '土日', '土曜日', '日曜日'] %></td>
+    <tr>
+    <tr>
+      <th class="users-posts-table">活動の方向性(任意)</th>
+      <td><%= f.select :course_of_action,  ['指定なし', 'プロ思考', 'インディーズ', '趣味'] %></td>
+    <tr>
+    <tr>
+      <th class="users-posts-table">募集する性別(任意)</th>
+      <td><%= f.select :recruitment_gender,  ['指定なし', '男', '女'] %></td>
+    <tr>
+    <tr>
+      <th class="users-posts-table">募集する年齢(任意)</th>
+      <td><%= f.number_field :post_age %>~<%= f.number_field :recruitment_age %></td>
+    <tr>
+    <tr>
+      <th class="users-posts-table">バンド音源(任意)</th>
+      <td><%= f.text_field :demosound, class: "form-control" %></td>
+    <tr>
+    
+  </table>
+  <%= f.submit "投稿する" %>
+<% end %> 

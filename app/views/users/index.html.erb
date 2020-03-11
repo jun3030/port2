@@ -1,0 +1,24 @@
+<h1>新着投稿</h1>
+
+<div class="col-md-10 col-md-offset-1">
+ <%= will_paginate %>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>名前</th>
+      </tr>
+    </thead>
+    
+    <% @users.each do |user| %>
+      <tr>
+        <% if logged_in? %>
+        <% if current_user.admin? && !current_user?(user) %>
+        <td><%= link_to user.name, edit_mypage_path(user) %></td>
+        <td class="delete-btn"><%= link_to "削除", user_path(user), method: :delete, data: { confirm: '#{user.name}を削除しますか?' }, class: "btn btn-primary" %></td>
+        <% end %>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+  <%= will_paginate %>
+</div>

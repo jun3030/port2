@@ -1,0 +1,54 @@
+<div class="wrapper">
+  <div class="column cat1">
+    <div class="info">
+      <div class="outer">
+        <h1 class="home-title">バンドメンバー<br>募集アプリ</h1>
+      </div>
+    </div>
+  </div>
+  <div class="column cat2">
+    <div class="info">
+      <div class="row">
+        <div class="col-md-7 col-md-offset-3">
+          <div class="form-oya">
+          <div class="form-ichi">
+            <%= form_with(model: @user, local: true) do |f| %>
+              <%= render 'shared/error_messages', object: @user %>
+            
+              <%= f.label :name, class: "label-class" %>
+              <%= f.text_field :name, class: "form-control" %>
+            
+              <%= f.label :email, class: "label-class" %>
+              <%= f.email_field :email, class: "form-control" %>
+            
+              <%= f.label :password, class: "label-class" %>
+              <%= f.password_field :password, class: "form-control" %>
+            
+              <%= f.label :password_confirmation, class: "label-class" %>
+              <%= f.password_field :password_confirmation, class: "form-control" %>
+            
+              <%= f.submit "新規登録", class: "btn btn-primary btn-block label-class" %>
+            <% end %>
+          
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,36 @@
+<div class="wrapper">
+  <div class="column cat1">
+    <div class="info">
+      <div class="outer">
+        <h1 class="home-title">バンドメンバー<br>募集アプリ</h1>
+      </div>
+    </div>
+  </div>
+  <div class="column cat2">
+    <div class="info">
+      <div class="row">
+        <div class="col-md-7 col-md-offset-3">
+          <div class="form-oya">
+          <div class="form-ichi">
+          <%= form_with(scope: :session, url: login_path, local: true) do |f| %>
+          
+            <%= f.label :メールアドレス, class: "label-login" %>
+            <%= f.email_field :email, class: "form-control" %>
+            
+            <%= f.label :パスワード, class: "label-login" %>
+            <%= f.password_field :password, class: "form-control" %>
+            
+              
+            <%= f.submit "ログイン", class: "btn btn-primary btn-block btn-login" %>
+          <% end %>
+          
+          <p>
+            新規ユーザーですか？<%= link_to "アカウントの登録はこちらから", new_user_path %>
+          </p>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

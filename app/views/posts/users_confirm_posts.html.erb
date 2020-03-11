@@ -1,0 +1,94 @@
+<div class="modal-dialog modal-lg modal-dialog-center">
+  <div class="modal-content">
+    
+  
+
+    
+  
+  <div class="split">
+    <div class="split-item split-left">
+        <div class="split-left__inner">
+            <% if @post.from_mypage_data? %>
+              <% if "mp4".in?(@post.from_mypage_data) %>
+                <div class="video"><%= video_tag @post.from_mypage_data, muted: true, controls: true, :size => "400x420"%></div>
+              <% else %>
+                <div class="video"><%= image_tag @post.from_mypage_data, :size => "400x420"%></div>
+              <% end %>
+            <% else %>
+              <% if @post.video?  %>
+                  <div class="video"><%= video_tag @post.video, muted: true, controls: true , :size => "400x420"%></div>
+              <% else %>
+                  <div class="video"><%= image_tag @post.posts_image, :size => "400x420"%></div>
+              <% end %>
+            <% end %>
+        </div><!--split-left__inner-->
+    </div><!--split-item split-left-->
+    <div class="split-item split-right">
+        <div class="split-right__inner">
+           <div class="modal-user-name">
+             <%= image_tag @user.image, size: 35 %><%= link_to "#{@user.name}#{@user.prefecture}#{@user.age}#{@user.sex}", edit_mypage_path(@user) %>
+             
+           </div>
+           <div class="modal-basicinfo">
+             
+             
+             <h5 class="basic-data-tag">[基本データ]</h5>
+             <table class="table table-bordered table-striped modal-profile-table">
+               <tr>
+                 
+                 <th class="modal-text">活動日</th>
+                 <td class="modal-text-2"><%= @post.activity_day %></td>
+                 <th class="modal-text">活動の方向性</th>
+                 <td class="modal-text-2"><%= @post.course_of_action %></td>
+               </tr>
+               
+               <tr>
+                 <th class="modal-text">募集年齢</th>
+                 <td class="modal-text-2"><%= @post.post_age %>~<%= @post.recruitment_age %></td>
+                 <th class="modal-text">募集する性別</th>
+                 <td class="modal-text-2"><%= @post.recruitment_gender %></td>
+               </tr>
+               
+               <tr>
+                 
+                 <th class="modal-text">活動地域</th>
+                 <td class="modal-text-2", colspan="3"><%= @post.activity_area.gsub(/[\[\]\"]/, "") %></td>
+                 
+               </tr>
+               <tr>
+                 <th class="modal-text">募集楽器パート</th>
+                 <td class="modal-text-2", colspan="3"><%= @post.recruitment_part.gsub(/[\[\]\"]/, "") %></td>
+               </tr>
+               <tr>
+                 <th class="modal-text">バンドジャンル</th>
+                 <td class="modal-text-2", colspan="3"><%= @post.band_genre.gsub(/[\[\]\"]/, "") %></td>
+               </tr>
+               
+             </table>
+             
+             
+             <div class="areticle-content"></div>
+               <h5 class="basic-data-tag">[記事内容]</h5>
+               <div class="scr">
+                 <p>
+                   <%= simple_format(@post.content) %>
+                 </p>
+              </div>
+             </div>
+             
+             
+             <h5 class="basic-data-tag">[バンド音源]</h5>
+             <div class="demosound">
+               <%= raw Rinku.auto_link(h(@post.demosound)) %>
+             </div>
+             
+             <div class="kaka">
+              
+             </div>
+            
+             
+           </div><!-- modal-basicinfo -->
+        </div><!--split-right__inner-->
+    </div><!--split-item split-right-->
+  </div
+    

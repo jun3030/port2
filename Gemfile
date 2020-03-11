@@ -18,7 +18,6 @@ gem 'jp_prefecture'
 gem 'jquery-rails' 
 gem 'rinku'
 gem 'carrierwave'
-
 gem 'roo'
 gem 'ransack'
 gem 'search_cop'
