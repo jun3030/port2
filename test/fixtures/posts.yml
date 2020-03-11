@@ -1,0 +1,41 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  content: MyText
+  title: MyText
+  url: MyString
+  posts_image: MyString
+  video: MyString
+  from_mypage_data: MyString
+  public_article: false
+  article_kind: MyString
+  activity_area: MyString
+  course_of_action: MyString
+  activity_day: MyString
+  recruitment_gender: MyString
+  recruitment_age: 1
+  recruitment_part: MyString
+  demosound: MyString
+  band_genre: MyString
+  post_age: 1
+  user: one
+
+two:
+  content: MyText
+  title: MyText
+  url: MyString
+  posts_image: MyString
+  video: MyString
+  from_mypage_data: MyString
+  public_article: false
+  article_kind: MyString
+  activity_area: MyString
+  course_of_action: MyString
+  activity_day: MyString
+  recruitment_gender: MyString
+  recruitment_age: 1
+  recruitment_part: MyString
+  demosound: MyString
+  band_genre: MyString
+  post_age: 1
+  user: two

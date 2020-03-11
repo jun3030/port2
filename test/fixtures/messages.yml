@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  room_id: 1
+  content: MyText
+  already_read: MyString
+  room: one
+  user: one
+
+two:
+  room_id: 1
+  content: MyText
+  already_read: MyString
+  room: two
+  user: two

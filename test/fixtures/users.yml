@@ -1,0 +1,41 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  email: MyString
+  app_id: 1
+  password_digest: MyString
+  purpose_of_use: MyText
+  prefecture: 1
+  responsible_part: 1
+  genre: 1
+  age: 1
+  sex: MyString
+  favorite_artist: MyString
+  self_introduction: MyText
+  image: MyString
+  first_token: MyString
+  third_token: MyString
+  app_secret: MyString
+  media_count: 1
+  admin: false
+
+two:
+  name: MyString
+  email: MyString
+  app_id: 1
+  password_digest: MyString
+  purpose_of_use: MyText
+  prefecture: 1
+  responsible_part: 1
+  genre: 1
+  age: 1
+  sex: MyString
+  favorite_artist: MyString
+  self_introduction: MyText
+  image: MyString
+  first_token: MyString
+  third_token: MyString
+  app_secret: MyString
+  media_count: 1
+  admin: false
