@@ -20,6 +20,8 @@ gem 'rinku'
 gem 'carrierwave'
 gem 'roo'
 gem 'ransack'
+
+
 gem 'search_cop'
 
 
